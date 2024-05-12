@@ -4,6 +4,8 @@ import "./globals.css";
 import { cn } from '../lib/utils';
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { ThemeProvider } from "@/components/theme-provider";
+import { ModeToggle } from "@/components/ui/mode-toggle";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -23,10 +25,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={cn(inter.className, 'min-h-dvh flex flex-col')}>
-        
-        <header className="container h-16 flex items-center border-b justify-between">
+      <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <header className="container h-16 flex items-center border-b justify-between">
           <h1 className="font-bold">LOGO</h1>
           
           <ul className="flex gap-4">
@@ -43,10 +50,12 @@ export default function RootLayout({
         <main className="container flex-1 grid relative">
           {children}
         </main>
-        <footer className="container sticky top-full h-16 flex items-center border-t">
+        <footer className="container sticky top-full h-16 flex justify-between items-center border-t">
           <p>&copy; takuya</p>
-        </footer>
 
+          <ModeToggle></ModeToggle>
+        </footer>
+      </ThemeProvider>
       </body>
     </html>
   );
